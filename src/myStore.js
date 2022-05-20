@@ -199,7 +199,7 @@ myStoreRouter.post('/check-session-key', async function(req, res) {
         if(req.body.key in keyArray) flag = true;
      
         if(flag) {
-            const body = keyArray[key];
+            const body = keyArray[req.body.key];
             try {
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
@@ -215,7 +215,7 @@ myStoreRouter.post('/check-session-key', async function(req, res) {
                             console.log(x)
                         db.collection("Users").replaceOne({_id:x._id},x)
                     }).then((r) => {
-                        delete keyArray[key]
+                        delete keyArray[body.key]
                         res.json({
                             key: body.key,
                             valid: true
