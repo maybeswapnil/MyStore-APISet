@@ -162,7 +162,6 @@ myStoreRouter.get('/getCollection', async function(req, res) {
 
 myStoreRouter.post('/create-checkout-session', async function(req, res) {
     try {
-        console.log(req.body)
         console.log(new Date(), ' Starting Checkout Procedure ')
         var key = crypto.randomBytes(16).toString('hex');
         keyArray[key] = req.body
@@ -210,7 +209,7 @@ myStoreRouter.post('/check-session-key', async function(req, res) {
                             console.log('---------------------------------------------------------')
                             console.log(x)
                             var ud = x.orders
-                            ud.push(body.cart);
+                            ud.push(body);
                             x.orders = ud;
                             console.log('---------------------------------------------------------')
                             console.log(x)
