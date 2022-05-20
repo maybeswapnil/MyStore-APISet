@@ -138,7 +138,7 @@ myStoreRouter.post('/addtocart', async function(req, res) {
                     db.collection("Users").find({'username': req.body.email}).forEach(function(x){
                         console.log('---------------------------------------------------------')
                         console.log(x)
-                        x.cart = body.cart
+                        x.cart = req.body.cart
                         console.log('---------------------------------------------------------')
                         console.log(x)
                     db.collection("Users").replaceOne({_id:x._id},x)
