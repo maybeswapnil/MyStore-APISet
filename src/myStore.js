@@ -38,6 +38,20 @@ var responsesuc = {
     }
 }
 
+var responsesuccess = {
+    "success": "Order Successfull",
+    "message": {
+        "string": "added to mongo kongo"
+    }
+}
+
+var responsesuccessCart = {
+    "success": "Added to cart",
+    "message": {
+        "string": "added to mongo kongo"
+    }
+}
+
 myStoreRouter.post('/login', function(req, res) {
     const body = req.body;
     try {
@@ -129,7 +143,7 @@ myStoreRouter.post('/addtocart', async function(req, res) {
                         console.log(x)
                     db.collection("Users").replaceOne({_id:x._id},x)
                 }).then((r) => {
-                    res.send(r)
+                    res.send(responsesuccessCart)
                 })
             })})
     } catch(r) {
@@ -215,7 +229,7 @@ myStoreRouter.post('/checkout-order', function(req, res) {
                     console.log(x)
                 db.collection("Users").replaceOne({_id:x._id},x)
             }).then((r) => {
-                res.send(r)
+                res.send(responsesuccess)
             })
         })
           }); 
