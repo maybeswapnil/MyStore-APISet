@@ -21,7 +21,7 @@ app.listen(port, () => {
 
 var options = {  
   inflate: true,
-  limit: '100kb',
+  limit: '10000kb',
   type: 'application/octet-stream'
 };
 
