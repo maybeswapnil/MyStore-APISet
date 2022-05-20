@@ -224,7 +224,9 @@ myStoreRouter.post('/checkout-order', function(req, res) {
                 db.collection("Users").find({'username': body.email}).forEach(function(x){
                     console.log('---------------------------------------------------------')
                     console.log(x)
-                    x.orders = x.orders.push(body.cart);
+                    var ud = x.orders
+                    ud.push(body.cart);
+                    x.orders = ud;
                     console.log('---------------------------------------------------------')
                     console.log(x)
                 db.collection("Users").replaceOne({_id:x._id},x)
