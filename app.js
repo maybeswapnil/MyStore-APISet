@@ -24,7 +24,8 @@ var options = {
   limit: '50mb',
   type: 'application/octet-stream'
 };
-
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(bodyParser.json({
   verify: (req, res, buf) => {
     req.rawBody = buf
