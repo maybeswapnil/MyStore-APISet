@@ -9,7 +9,7 @@ const collection = require('./Collection.json');
 const { default: Stripe } = require('stripe');
 const stripe = require('stripe')('sk_test_51Jvf6ISAiSWGvhs7pI6tU81T2QXVpnE79GjC4K5ay34ZDVWn7ZKu4GF454RluM1twn5rM2Oy9TYlxhdespSD4Z0000BtheGEiW');
 const url = "mongodb+srv://swapnil:swapnil@swapnil.wfwy9.mongodb.net/MyStore?retryWrites=true&w=majority";
-var keyArray = [];
+var keyArray = {};
 var invalidResponse = {
     "error": "Invalid Credentials",
     "message": {
@@ -164,7 +164,7 @@ myStoreRouter.post('/create-checkout-session', async function(req, res) {
     try {
         console.log(new Date(), ' Starting Checkout Procedure ')
         var key = crypto.randomBytes(16).toString('hex');
-        keyArray.push(key)
+        keyArray[key] = req.body
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -196,14 +196,39 @@ myStoreRouter.post('/check-session-key', async function(req, res) {
     try {
         console.log(new Date(), ' Checking key ')
         var flag = false;
-        keyArray.map(r => {
-            if(r===req.body.key) flag = true
-        })
+        if(req.body.key in keyArray) flag = true;
+     
         if(flag) {
-            res.json({
-                key: req.body.key,
-                valid: true
-            })
+            const body = keyArray[key];
+            try {
+                MongoClient.connect(url, function(err, db) {
+                    if (err) throw err;
+                    var db = db.db("MyStore");
+                    var n = new Promise((resolve, reject) => {
+                        db.collection("Users").find({'username': body.userinfo.email}).forEach(function(x){
+                            console.log('---------------------------------------------------------')
+                            console.log(x)
+                            var ud = x.orders
+                            ud.push(body.cart);
+                            x.orders = ud;
+                            console.log('---------------------------------------------------------')
+                            console.log(x)
+                        db.collection("Users").replaceOne({_id:x._id},x)
+                    }).then((r) => {
+                        delete keyArray[key]
+                        res.json({
+                            key: body.key,
+                            valid: true
+                        })
+                    }).catch((e) => {
+                        res.status(500).send(errResponse)
+                    })
+                })
+                }); 
+            } catch(e) {
+                console.log(new Date(), e)
+            } 
+            
         } else {
             res.status(403).send(errResponse)
         }
