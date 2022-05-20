@@ -180,8 +180,8 @@ myStoreRouter.post('/create-checkout-session', async function(req, res) {
                     quantity: item.quantity
                 }
             }),
-            success_url: 'http://localhost:3000/?paymentsuccess:'+key,
-            cancel_url: 'http://localhost:3000/?paymentfailed:'+key
+            success_url: 'https://mycanvasstore.netlify.app/?paymentsuccess:'+key,
+            cancel_url: 'https://mycanvasstore.netlify.app/?paymentfailed:'+key
         })
         res.json({
             url: session.url
