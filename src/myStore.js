@@ -7,8 +7,8 @@ const { resolve } = require('path');
 const axios = require('axios');
 const collection = require('./Collection.json');
 const { default: Stripe } = require('stripe');
-const stripe = require('stripe')('sk_test_51Jvf6ISAiSWGvhs7pI6tU81T2QXVpnE79GjC4K5ay34ZDVWn7ZKu4GF454RluM1twn5rM2Oy9TYlxhdespSD4Z0000BtheGEiW');
-const url = "mongodb+srv://swapnil:swapnil@swapnil.wfwy9.mongodb.net/MyStore?retryWrites=true&w=majority";
+const stripe = require('stripe')('');
+const url = "";
 var keyArray = {};
 var invalidResponse = {
     "error": "Invalid Credentials",
